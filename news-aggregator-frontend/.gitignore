@@ -1,0 +1,23 @@
+# Java / Maven
+target/
+*.log
+*.class
+*.jar
+*.war
+*.iml
+
+# Node / React / Vite
+node_modules/
+dist/
+.vite/
+
+# OS / IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Env / secrets
+.env
+*.env.local
