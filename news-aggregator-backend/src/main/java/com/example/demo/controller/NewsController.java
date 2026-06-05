@@ -29,3 +29,4 @@ public class NewsController {
         return newsService.searchNews(q);
     }
 }
+ 

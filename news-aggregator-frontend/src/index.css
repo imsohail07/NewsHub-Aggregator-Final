@@ -34,3 +34,30 @@ body {
   transition: transform 220ms cubic-bezier(.2,.9,.3,1), box-shadow 220ms;
 }
 .pill:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 10px 30px rgba(124,58,237,0.18); }
+
+/* Splash Screen Animations */
+@keyframes fadeInZoom {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.animate-fade-in-zoom {
+  animation: fadeInZoom 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.animate-fade-in {
+  animation: fadeIn 1s ease-in-out forwards;
+}
+

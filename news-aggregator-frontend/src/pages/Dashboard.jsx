@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { getTopNews, searchNews } from "../api/newsApi";
 import { saveArticle } from "../api/savedApi";
-import Navbar from "../components/Navbar";
 import Loader from "../components/Loader";
 import ArticleCard from "../components/ArticleCard";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +10,7 @@ export default function Dashboard() {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   useEffect(() => {
     loadTopNews();
@@ -32,31 +32,33 @@ export default function Dashboard() {
   };
 
   const handleSave = async (article) => {
-    await saveArticle({
-      title: article.title,
-      description: article.description,
-      url: article.url,
-      imageUrl: article.urlToImage,
-      source: article.source?.name || "",
-      publishedAt: article.publishedAt,
-      content: article.content,
-    });
-    // (you can add a toast/snackbar here later)
+    if (!token) {
+      setShowAuthModal(true);
+      return;
+    }
+    try {
+      await saveArticle({
+        title: article.title,
+        description: article.description,
+        url: article.url,
+        imageUrl: article.urlToImage,
+        source: article.source?.name || "",
+        publishedAt: article.publishedAt,
+        content: article.content,
+      });
+      alert("Article saved successfully!");
+    } catch (err) {
+      alert("Failed to save article.");
+      console.error(err);
+    }
   };
 
   const { token } = useContext(AuthContext);
-const navigate = useNavigate();
-
-useEffect(() => {
-  if (!token) {
-    navigate("/login");
-  }
-}, [token]);
+  const navigate = useNavigate();
 
 
   return (
     <div className="min-h-screen">
-      <Navbar />
 
       <main className="max-w-6xl mx-auto px-4 py-6">
         {/* Header + search */}
@@ -116,6 +118,39 @@ useEffect(() => {
           </p>
         )}
       </main>
+
+      {showAuthModal && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
+          <div className="bg-gray-900 border border-gray-800 p-8 rounded-2xl w-full max-w-sm space-y-6 text-center shadow-2xl relative">
+            <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-indigo-500 bg-clip-text text-transparent">
+              Sign In Required
+            </h3>
+            <p className="text-sm text-gray-400">
+              You need to log in or create an account to save articles to your personal bookmarks list.
+            </p>
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={() => navigate("/login")}
+                className="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold p-3 rounded-xl transition duration-200"
+              >
+                Sign In
+              </button>
+              <button
+                onClick={() => navigate("/register")}
+                className="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold p-3 rounded-xl transition duration-200 border border-slate-700"
+              >
+                Create Account
+              </button>
+              <button
+                onClick={() => setShowAuthModal(false)}
+                className="w-full text-gray-400 hover:text-gray-200 font-semibold text-sm transition"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
