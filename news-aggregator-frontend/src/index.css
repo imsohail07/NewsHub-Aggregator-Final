@@ -63,3 +63,20 @@ body {
   animation: fadeIn 1s ease-in-out forwards;
 }
 
+/* Newspaper Masthead Custom Styling */
+.header {
+  height: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #222;
+}
+
+.site-logo {
+  max-height: 140px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+

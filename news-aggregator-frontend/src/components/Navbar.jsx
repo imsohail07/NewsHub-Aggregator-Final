@@ -97,17 +97,13 @@ export default function Navbar() {
       </div>
 
       {/* 2. MAIN CENTERED MASTHEAD TITLE */}
-      <div className="py-6 text-center select-none">
+      <div className="header select-none bg-black">
         <Link to="/" className="inline-block group">
-          <h1 
-            className="text-5xl md:text-7xl font-black uppercase tracking-wider text-white hover:text-purple-300 transition duration-300" 
-            style={{ fontFamily: "'Cinzel', Georgia, serif" }}
-          >
-            The NewsHub Times
-          </h1>
-          <p className="text-[10px] md:text-xs text-gray-500 tracking-[0.6em] uppercase mt-2 font-bold group-hover:text-purple-400/60 transition duration-300">
-            Systemized News Aggregator Platform
-          </p>
+          <img 
+            src="/images/meridian-logo.png" 
+            alt="The Meridian Times" 
+            className="site-logo filter invert transition duration-300 group-hover:opacity-85"
+          />
         </Link>
       </div>
 
