@@ -3,7 +3,7 @@ import { getTopNews, searchNews } from "../api/newsApi";
 import { saveArticle } from "../api/savedApi";
 import Loader from "../components/Loader";
 import ArticleCard from "../components/ArticleCard";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 export default function Dashboard() {
@@ -12,13 +12,17 @@ export default function Dashboard() {
   const [query, setQuery] = useState("");
   const [showAuthModal, setShowAuthModal] = useState(false);
 
-  useEffect(() => {
-    loadTopNews();
-  }, []);
+  const [searchParams] = useSearchParams();
+  const activeCategory = searchParams.get("category") || "general";
 
-  const loadTopNews = async () => {
+  useEffect(() => {
+    loadTopNews(activeCategory);
+    setQuery("");
+  }, [activeCategory]);
+
+  const loadTopNews = async (category = "general") => {
     setLoading(true);
-    const data = await getTopNews();
+    const data = await getTopNews(category);
     setArticles(data?.articles || []);
     setLoading(false);
   };
